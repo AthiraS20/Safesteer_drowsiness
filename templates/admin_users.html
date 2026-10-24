@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Users - Admin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #eee; }
+    table { width: 90%; margin: 20px auto; border-collapse: collapse; }
+    th, td { border: 1px solid #555; padding: 10px; text-align: center; }
+    th { background: #222; }
+    tr:nth-child(even) { background: #333; }
+    h1 { text-align: center; margin-top: 20px; }
+    a { color: #ff3b3f; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { margin: 20px; display: block; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Registered Users</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Vehicle No</th>
+      <th>Role</th>
+      <th>Created At</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td><a href="{{ url_for('admin_user_details', user_id=user['id']) }}">{{ user['id'] }}</a></td>
+      <td><a href="{{ url_for('admin_user_details', user_id=user['id']) }}">{{ user['username'] }}</a></td>
+      <td>{{ user['email'] }}</td>
+      <td>{{ user['phone'] }}</td>
+      <td>{{ user['vehicle_no'] }}</td>
+      <td>{{ user['role'] }}</td>
+      <td>{{ user['created_at'] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{{ url_for('admin_dashboard') }}" class="back">⬅ Back to Dashboard</a>
+</body>
+</html>

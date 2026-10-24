@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Driver Console — Safe Steer AI</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body style="background-color: #f8faff;">
+  <div class="ambient-bg"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="{{ url_for('dashboard') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-radar'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">CONSOLE</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('dashboard') }}" class="active">Overview</a>
+      <a href="{{ url_for('about') }}">Documentation</a>
+    </nav>
+
+    <div class="header-actions">
+      <span style="font-size:14px; font-weight:700; color:var(--text-main); margin-right:8px;">
+        <i class='bx bxs-user-circle' style="color:#6366f1; vertical-align:middle; font-size:18px;"></i> {{ user['username'] }}
+      </span>
+      <a href="{{ url_for('logout') }}" class="btn-pill secondary" style="padding: 8px 18px; font-size: 13.5px;">
+        <i class='bx bx-log-out'></i> Logout
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-container">
+    <!-- Hero Profile & Action Card -->
+    <div class="dashboard-hero-card">
+      <div class="driver-profile-info">
+        <div class="driver-avatar-circle">
+          <i class='bx bx-user'></i>
+        </div>
+        <div>
+          <div class="pill-badge" style="margin-bottom:6px; font-size:11px; padding:3px 10px;">
+            <i class='bx bxs-circle' style="font-size:8px; color:#10b981;"></i> VERIFIED DRIVER
+          </div>
+          <h2 style="font-size: 28px;">Hello, {{ user['username'] }}</h2>
+          <p style="color:var(--text-muted); font-size:14.5px;">Vehicle: <strong>{{ user['vehicle_no'] }}</strong> &bull; {{ user['email'] }}</p>
+        </div>
+      </div>
+
+      <!-- Start Monitoring Button -->
+      <div>
+        <form action="{{ url_for('start_monitoring') }}" method="post">
+          <button type="submit" class="btn-pill primary" style="padding: 16px 32px; font-size: 16px; border-radius: 999px;">
+            <i class='bx bx-video-recording' style="font-size: 22px;"></i> Launch AI Camera Monitor
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Quick Stat Cards -->
+    <div class="details-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-car'></i></div>
+        <div class="stat-content">
+          <h5>Vehicle No</h5>
+          <p>{{ user['vehicle_no'] }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-phone'></i></div>
+        <div class="stat-content">
+          <h5>Driver Contact</h5>
+          <p>{{ user['phone'] }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-shield-alt-2'></i></div>
+        <div class="stat-content">
+          <h5>Total Incidents</h5>
+          <p>{{ incidents|length }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class='bx bx-radar'></i></div>
+        <div class="stat-content">
+          <h5>AI Guard Status</h5>
+          <p style="color:#10b981; display:flex; align-items:center; gap:6px;">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981;"></span> Ready
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Robotic Audio & Safety Alerts Diagnostics Card -->
+    <div class="table-card" style="margin-bottom: 28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; flex-wrap:wrap; gap:10px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:42px; height:42px; border-radius:12px; background:rgba(99,102,241,0.1); color:#6366f1; display:flex; align-items:center; justify-content:center; font-size:22px;">
+            <i class='bx bx-volume-full'></i>
+          </div>
+          <div>
+            <h3 style="margin:0; font-size:18px;">Robotic Audio & AI Copilot Diagnostics</h3>
+            <p style="margin:2px 0 0; font-size:13px; color:var(--text-muted);">Real-time test suite for synthetic cockpit warning tones & robotic telemetry alerts</p>
+          </div>
+        </div>
+        <div id="audioStatusBadge" class="pill-badge" style="font-size:12px; padding:6px 14px; background:#f1f5f9; color:#475569; font-weight:600; border-radius:999px;">
+          <i class='bx bx-broadcast'></i> Audio Subsystem: Ready
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap:14px; margin-top:16px;">
+        <button type="button" class="btn-sound-test danger" onclick="playRoboticAlert('mayday', '')" style="border-color:#ef4444; background:#fff5f5;">
+          <i class='bx bxs-megaphone' style="color:#ef4444;"></i>
+          <strong style="color:#b91c1c;">Mayday Danger!</strong>
+          <span style="color:#dc2626; font-weight:600;">"Mayday! You are in danger!"</span>
+        </button>
+
+        <button type="button" class="btn-sound-test" onclick="playRoboticAlert('boot', 'Safe Steer A.I. online. Driver safety radar engaged.')">
+          <i class='bx bx-power-off'></i>
+          <strong>System Boot</strong>
+          <span>Ascending Radar Chime</span>
+        </button>
+
+        <button type="button" class="btn-sound-test" onclick="playRoboticAlert('warning', 'Warning: Eye closure detected. Please stay alert.')">
+          <i class='bx bx-bell'></i>
+          <strong>Drowsy Pulse</strong>
+          <span>Cockpit Warning Beep</span>
+        </button>
+
+        <button type="button" class="btn-sound-test" onclick="playRoboticAlert('phone', 'Warning: Handheld mobile distraction detected. Keep both hands on the wheel.')">
+          <i class='bx bx-mobile-vibration'></i>
+          <strong>Distraction Scan</strong>
+          <span>Cybernetic Sensor Beep</span>
+        </button>
+
+        <button type="button" class="btn-sound-test" onclick="playRoboticAlert('safe', 'Driver attention status: normal.')">
+          <i class='bx bx-check-shield'></i>
+          <strong>Safe Recovery</strong>
+          <span>Harmonic All-Clear Chime</span>
+        </button>
+
+        <button type="button" class="btn-sound-test danger" onclick="playRoboticAlert('emergency', 'Critical emergency: Driver unresponsive. Autonomous rescue telemetry dispatched.')">
+          <i class='bx bx-alarm-exclamation'></i>
+          <strong>Emergency Klaxon</strong>
+          <span>Pulsed Siren Alarm</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Incident History Table Card -->
+    <div class="table-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+        <h3><i class='bx bx-history' style="color:#6366f1;"></i> Trip Incident History</h3>
+        <span style="font-size:13px; color:var(--text-muted); font-weight:600;">Automated Computer Vision Log</span>
+      </div>
+
+      {% if incidents %}
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Incident ID</th>
+            <th>Detection Type</th>
+            <th>Timestamp</th>
+            <th>Safety Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inc in incidents %}
+          <tr>
+            <td style="font-weight: 700; color:var(--text-main);">#{{ inc['id'] }}</td>
+            <td>
+              {% if 'Drowsiness' in inc['type'] %}
+                <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ inc['type'] }}</span>
+              {% elif 'Phone' in inc['type'] %}
+                <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ inc['type'] }}</span>
+              {% elif 'Unresponsive' in inc['type'] %}
+                <span class="status-badge danger" style="background:#fecaca; color:#991b1b;"><i class='bx bx-alarm-exclamation'></i> {{ inc['type'] }}</span>
+              {% else %}
+                <span class="status-badge warning">{{ inc['type'] }}</span>
+              {% endif %}
+            </td>
+            <td style="color:var(--text-muted);">{{ inc['timestamp'] }}</td>
+            <td>
+              {% if 'Unresponsive' in inc['type'] %}
+                <span style="color:#ef4444; font-weight:700;">Critical (Siren Active)</span>
+              {% elif 'Drowsiness' in inc['type'] %}
+                <span style="color:#f59e0b; font-weight:700;">Moderate</span>
+              {% else %}
+                <span style="color:#6366f1; font-weight:700;">Attention</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div style="text-align:center; padding: 40px; color:var(--text-muted);">
+        <i class='bx bx-check-shield' style="font-size: 48px; color: #10b981; margin-bottom: 12px; display:block;"></i>
+        <h4>No safety incidents recorded</h4>
+        <p style="font-size:14px; margin-top:4px;">You have a 100% clean driving safety score!</p>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <style>
+    .btn-sound-test {
+      background: #ffffff;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+    }
+    .btn-sound-test i {
+      font-size: 26px;
+      color: #6366f1;
+      margin-bottom: 2px;
+      transition: transform 0.2s ease;
+    }
+    .btn-sound-test strong {
+      font-size: 13.5px;
+      color: var(--text-main);
+    }
+    .btn-sound-test span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .btn-sound-test:hover {
+      transform: translateY(-3px);
+      border-color: #6366f1;
+      box-shadow: 0 10px 24px -6px rgba(99, 102, 241, 0.25);
+      background: #fbfdff;
+    }
+    .btn-sound-test:hover i {
+      transform: scale(1.15);
+    }
+    .btn-sound-test.danger {
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+    .btn-sound-test.danger i {
+      color: #ef4444;
+    }
+    .btn-sound-test.danger:hover {
+      border-color: #ef4444;
+      box-shadow: 0 10px 24px -6px rgba(239, 68, 68, 0.25);
+    }
+  </style>
+
+  <script>
+    const soundUrls = {
+      mayday: "{{ url_for('static', filename='sounds/robot_mayday.wav') }}",
+      boot: "{{ url_for('static', filename='sounds/robot_boot.wav') }}",
+      warning: "{{ url_for('static', filename='sounds/robot_warning.wav') }}",
+      phone: "{{ url_for('static', filename='sounds/robot_phone_alert.wav') }}",
+      safe: "{{ url_for('static', filename='sounds/robot_safe.wav') }}",
+      emergency: "{{ url_for('static', filename='sounds/robot_emergency.wav') }}",
+      chirp: "{{ url_for('static', filename='sounds/robot_chirp.wav') }}"
+    };
+
+    let currentAudio = null;
+
+    function playRoboticAlert(type, voiceText) {
+      const badge = document.getElementById("audioStatusBadge");
+      if (badge) {
+        badge.innerHTML = "<i class='bx bx-loader-alt bx-spin' style='color:#6366f1;'></i> Testing " + type.toUpperCase() + "...";
+        badge.style.background = "#e0e7ff";
+        badge.style.color = "#4338ca";
+      }
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+
+      const audioUrl = soundUrls[type];
+      if (audioUrl) {
+        currentAudio = new Audio(audioUrl);
+        if (!voiceText) {
+          currentAudio.onended = () => {
+            if (badge) {
+              badge.innerHTML = "<i class='bx bx-check-circle' style='color:#10b981;'></i> Diagnostic Complete";
+              badge.style.background = "#dcfce7";
+              badge.style.color = "#15803d";
+              setTimeout(() => {
+                badge.innerHTML = "<i class='bx bx-broadcast'></i> Audio Subsystem: Ready";
+                badge.style.background = "#f1f5f9";
+                badge.style.color = "#475569";
+              }, 2500);
+            }
+          };
+        }
+        currentAudio.play().catch(e => console.log("Audio notice:", e));
+      }
+
+      if (voiceText && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const delay = type === 'boot' ? 850 : 350;
+        setTimeout(() => {
+          const u = new SpeechSynthesisUtterance(voiceText);
+          u.rate = 1.05;
+          u.pitch = 0.95;
+          const voices = window.speechSynthesis.getVoices();
+          const engVoice = voices.find(v => v.lang.startsWith("en") && (v.name.includes("David") || v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Male")));
+          if (engVoice) u.voice = engVoice;
+
+          u.onend = () => {
+            if (badge) {
+              badge.innerHTML = "<i class='bx bx-check-circle' style='color:#10b981;'></i> Diagnostic Complete";
+              badge.style.background = "#dcfce7";
+              badge.style.color = "#15803d";
+              setTimeout(() => {
+                badge.innerHTML = "<i class='bx bx-broadcast'></i> Audio Subsystem: Ready";
+                badge.style.background = "#f1f5f9";
+                badge.style.color = "#475569";
+              }, 2500);
+            }
+          };
+          window.speechSynthesis.speak(u);
+        }, delay);
+      } else {
+        setTimeout(() => {
+          if (badge) {
+            badge.innerHTML = "<i class='bx bx-broadcast'></i> Audio Subsystem: Ready";
+            badge.style.background = "#f1f5f9";
+            badge.style.color = "#475569";
+          }
+        }, 1500);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Platform — Safe Steer AI</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #f8faff;">
+  <div class="ambient-bg"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('index') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-radar'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('index') }}#showcase">Vision Tech</a>
+      <a href="{{ url_for('index') }}#features">Features</a>
+      <a href="{{ url_for('about') }}" class="active">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ url_for('index') }}#signin" class="header-link">Sign In</a>
+      <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+    </div>
+  </header>
+
+  <main class="dashboard-container" style="max-width: 1040px; margin-top: 130px;">
+    <div class="section-header" style="text-align: left; margin-bottom: 36px;">
+      <span class="section-tag">MISSION & INTELLIGENCE</span>
+      <h2>About <span class="gradient-text">Safe Steer AI</span></h2>
+      <p style="font-size: 18px; line-height: 1.7;">
+        Safe Steer is an autonomous, on-device edge AI driver safety system engineered to eliminate fatigue-induced collisions, distracted driving, and unresponsive vehicular emergencies in real time.
+      </p>
+    </div>
+
+    <!-- Tech Architecture Grid -->
+    <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 40px; text-align: left;">
+      <div class="feature-box" style="align-items: flex-start; text-align: left;">
+        <div class="feature-icon-circle"><i class='bx bx-scan'></i></div>
+        <h3>High-Precision Eye & Face Mesh</h3>
+        <p>Using Google MediaPipe's neural 3D FaceLandmarker, Safe Steer tracks 468 spatial coordinates in the driver's eye sockets and calculates the Eye Aspect Ratio (EAR) at up to 60 FPS, distinguishing between natural blinks and dangerous microsleep episodes.</p>
+      </div>
+
+      <div class="feature-box" style="align-items: flex-start; text-align: left;">
+        <div class="feature-icon-circle"><i class='bx bx-mobile-alt'></i></div>
+        <h3>Spatial Vector Distraction Radar</h3>
+        <p>By computing Euclidean distance vectors between the driver's nose landmark and hand landmarks (thumb tip #4 and index tip #8), the vision engine instantly differentiates normal steering wheel maneuvers from hazardous phone usage.</p>
+      </div>
+
+      <div class="feature-box" style="align-items: flex-start; text-align: left;">
+        <div class="feature-icon-circle"><i class='bx bx-volume-full'></i></div>
+        <h3>Graduated Acoustic Deterrence</h3>
+        <p>When driver fatigue is detected, the engine emits graduated auditory alerts: conversational synthesized speech reminders, high-frequency alert beeps, and an escalated multi-second car horn siren if the driver remains unresponsive.</p>
+      </div>
+
+      <div class="feature-box" style="align-items: flex-start; text-align: left;">
+        <div class="feature-icon-circle"><i class='bx bx-data'></i></div>
+        <h3>Forensic Incident Telemetry</h3>
+        <p>All safety breaches are committed to an immutable SQLite audit log with driver IDs, vehicle tags, and microsecond-level timestamps, providing transport managers with actionable telematics.</p>
+      </div>
+    </div>
+
+    <div class="table-card" style="text-align: center; padding: 48px 32px;">
+      <h3 style="justify-content: center; font-size: 26px;">Ready to Safeguard Your Fleet?</h3>
+      <p style="color: var(--text-muted); max-width: 540px; margin: 10px auto 24px;">
+        Connect your cabin camera and test the neural detection engine directly on your vehicle.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 16px;">
+        <a href="{{ url_for('signup') }}" class="btn-pill primary" style="padding: 14px 32px;">Register Vehicle</a>
+        <a href="{{ url_for('index') }}#signin" class="btn-pill secondary" style="padding: 14px 28px;">Driver Sign In</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="brand-logo" style="font-size: 19px;">
+        <div class="logo-icon" style="width:30px; height:30px; font-size:16px;"><i class='bx bx-radar'></i></div>
+        <span>Safe<span>Steer</span> AI</span>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Safe Steer AI. All rights reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

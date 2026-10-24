@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fleet Administration — Safe Steer AI</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #f8faff;">
+  <div class="ambient-bg"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('admin_dashboard') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-shield-quarter'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">ADMIN</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('admin_dashboard') }}" class="active">Fleet Drivers</a>
+      <a href="{{ url_for('admin_incidents') }}">All Incidents</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ url_for('logout') }}" class="btn-pill secondary" style="padding: 8px 18px; font-size: 13.5px;">
+        <i class='bx bx-log-out'></i> Logout
+      </a>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+    <div class="dashboard-hero-card">
+      <div>
+        <div class="pill-badge" style="margin-bottom:6px; font-size:11px; padding:3px 10px;">
+          <i class='bx bxs-shield'></i> FLEET SUPERVISOR
+        </div>
+        <h2 style="font-size: 28px;">Fleet Management Console</h2>
+        <p style="color:var(--text-muted); font-size:14.5px;">Supervise registered fleet drivers, vehicle allocations, and individual safety audit trails.</p>
+      </div>
+
+      <div>
+        <a href="{{ url_for('admin_incidents') }}" class="btn-pill primary">
+          <i class='bx bx-list-ul'></i> View All Incidents
+        </a>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+        <h3><i class='bx bx-group' style="color:#6366f1;"></i> Registered Fleet Drivers</h3>
+        <span style="font-size:13px; color:var(--text-muted); font-weight:600;">Total: {{ users|length }} Drivers</span>
+      </div>
+
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Driver ID</th>
+            <th>Full Name</th>
+            <th>Vehicle No</th>
+            <th>Access Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td style="font-weight: 700;">#{{ u['id'] }}</td>
+            <td style="font-weight: 600; color:var(--text-main);">
+              <i class='bx bx-user' style="color:#6366f1; margin-right:4px;"></i> {{ u['username'] }}
+            </td>
+            <td>
+              <span class="tag-chip" style="background:#eef2ff; color:#4f46e5; border-color:#c7d2fe;">
+                <i class='bx bx-car'></i> {{ u['vehicle_no'] }}
+              </span>
+            </td>
+            <td>
+              <span class="status-badge success">{{ u['role'] if 'role' in u else 'Driver' }}</span>
+            </td>
+            <td>
+              <a href="{{ url_for('admin_user_details', user_id=u['id']) }}" class="btn-pill secondary" style="padding: 6px 14px; font-size: 13px;">
+                Inspect Telemetry &nbsp;<i class='bx bx-right-arrow-alt'></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

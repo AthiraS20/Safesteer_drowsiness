@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Incident Reports — Safe Steer AI</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: #f8faff;">
+  <div class="ambient-bg"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('admin_dashboard') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-shield-quarter'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">ADMIN</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('admin_dashboard') }}">Fleet Drivers</a>
+      <a href="{{ url_for('admin_incidents') }}" class="active">All Incidents</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ url_for('admin_dashboard') }}" class="btn-pill secondary" style="padding: 8px 18px; font-size: 13.5px;">
+        <i class='bx bx-arrow-back'></i> Drivers List
+      </a>
+      <a href="{{ url_for('logout') }}" class="btn-pill secondary" style="padding: 8px 18px; font-size: 13.5px;">
+        <i class='bx bx-log-out'></i> Logout
+      </a>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+    <div class="dashboard-hero-card">
+      <div>
+        <div class="pill-badge" style="margin-bottom:6px; font-size:11px; padding:3px 10px;">
+          <i class='bx bxs-bell-ring'></i> FORENSIC AUDIT
+        </div>
+        <h2 style="font-size: 28px;">All Fleet Incidents</h2>
+        <p style="color:var(--text-muted); font-size:14.5px;">Complete chronological timeline of all AI vision safety alerts across all vehicles.</p>
+      </div>
+      <div>
+        <span class="tag-chip" style="font-size: 14px; padding: 8px 16px; background:#e0e7ff; color:#4338ca;">
+          <i class='bx bx-radar'></i> Live AI Audit Stream
+        </span>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+        <h3><i class='bx bx-shield-x' style="color:#ef4444;"></i> Detected Safety Incidents</h3>
+        <span style="font-size:13px; color:var(--text-muted); font-weight:600;">Total: {{ incidents|length }} Events</span>
+      </div>
+
+      {% if incidents %}
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Event ID</th>
+            <th>Driver / Vehicle</th>
+            <th>Incident Type</th>
+            <th>Timestamp</th>
+            <th>Action Taken</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inc in incidents %}
+          <tr>
+            <td style="font-weight: 700;">#{{ inc['id'] }}</td>
+            <td>
+              <div style="font-weight:700; color:var(--text-main);">
+                {{ inc['username'] if 'username' in inc else ('User #' ~ inc['user_id']) }}
+              </div>
+              <div style="font-size:12px; color:var(--text-muted);">
+                <i class='bx bx-car'></i> {{ inc['vehicle_no'] if 'vehicle_no' in inc else 'N/A' }}
+              </div>
+            </td>
+            <td>
+              {% set itype = inc['type'] if 'type' in inc else (inc['incident_type'] if 'incident_type' in inc else 'Alert') %}
+              {% if 'Drowsiness' in itype %}
+                <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ itype }}</span>
+              {% elif 'Phone' in itype %}
+                <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ itype }}</span>
+              {% elif 'Unresponsive' in itype %}
+                <span class="status-badge danger" style="background:#fee2e2; color:#b91c1c;"><i class='bx bx-alarm-exclamation'></i> {{ itype }}</span>
+              {% else %}
+                <span class="status-badge warning">{{ itype }}</span>
+              {% endif %}
+            </td>
+            <td style="color:var(--text-muted);">
+              {{ inc['timestamp'] if 'timestamp' in inc else inc['created_at'] }}
+            </td>
+            <td>
+              {% if 'Unresponsive' in itype %}
+                <span style="color:#b91c1c; font-weight:700;">Siren & Rescue Team Triggered</span>
+              {% else %}
+                <span style="color:#4f46e5; font-weight:600;">Voice Warning Logged</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div style="text-align:center; padding: 40px; color:var(--text-muted);">
+        <i class='bx bx-check-double' style="font-size: 48px; color: #10b981; margin-bottom: 12px; display:block;"></i>
+        <h4>No incidents recorded across fleet</h4>
+        <p style="font-size:14px; margin-top:4px;">All drivers are operating safely within normal parameters.</p>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Driver Account — Safe Steer AI</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('index') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-radar'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('about') }}">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="{{ url_for('index') }}" class="header-link">Sign In</a>
+      <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+    </div>
+  </header>
+
+  <main class="auth-section" style="padding-top: 130px;">
+    <div class="auth-card" style="max-width: 960px; margin: 0 auto; grid-template-columns: 0.9fr 1.1fr;">
+      <!-- Left Info Panel -->
+      <div class="auth-sidebar">
+        <div>
+          <div class="pill-badge" style="background: rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.2);">
+            <i class='bx bxs-user-plus'></i> REGISTRATION
+          </div>
+          <h3>Join the Safe Steer Network</h3>
+          <p>Register your vehicle to enable autonomous computer vision protection and trip incident telemetry.</p>
+
+          <div class="auth-sidebar-features">
+            <div class="auth-feature-item">
+              <i class='bx bx-check-circle'></i> Real-time eye closure analysis
+            </div>
+            <div class="auth-feature-item">
+              <i class='bx bx-check-circle'></i> Mobile phone distraction alerts
+            </div>
+            <div class="auth-feature-item">
+              <i class='bx bx-check-circle'></i> Automated supervisor dispatch
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; color: #a5b4fc;">
+          Protecting drivers & roadways worldwide.
+        </div>
+      </div>
+
+      <!-- Right Registration Form -->
+      <div class="auth-form-wrap">
+        <h2>Register Driver</h2>
+        <p class="auth-sub">Enter your details to create your driver profile.</p>
+
+        <form id="signupForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name</label>
+            <div class="input-with-icon">
+              <input type="text" id="name" placeholder="Johnathan Doe" required />
+              <i class='bx bx-user'></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="signupEmail">Email Address</label>
+            <div class="input-with-icon">
+              <input type="email" id="signupEmail" placeholder="driver@email.com" required />
+              <i class='bx bx-envelope'></i>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="phone">Phone Number</label>
+              <div class="input-with-icon">
+                <input type="tel" id="phone" placeholder="+1 234 567 890" required />
+                <i class='bx bx-phone'></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="vehicleNumber">Vehicle Number</label>
+              <div class="input-with-icon">
+                <input type="text" id="vehicleNumber" placeholder="KA-01-AB-1234" required />
+                <i class='bx bx-car'></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="signupPassword">Password</label>
+              <div class="input-with-icon">
+                <input type="password" id="signupPassword" placeholder="••••••••" required />
+                <i class='bx bx-lock-alt'></i>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="confirmPassword">Confirm Password</label>
+              <div class="input-with-icon">
+                <input type="password" id="confirmPassword" placeholder="••••••••" required />
+                <i class='bx bx-lock'></i>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit" style="margin-top: 10px;">
+            Create Driver Account &nbsp;<i class='bx bx-check'></i>
+          </button>
+
+          <p class="auth-swap">
+            Already registered?
+            <a href="{{ url_for('index') }}">Sign In Here</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

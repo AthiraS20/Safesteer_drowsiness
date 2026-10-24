@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Safe Steer AI — Next-Gen Driver Safety Platform</title>
+
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+  <!-- Ambient background light glows -->
+  <div class="ambient-bg"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <a href="{{ url_for('index') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-radar'></i></div>
+      <span>Safe<span>Steer</span> <span
+          style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#hero" class="active">Home</a>
+      <a href="#showcase">Technology</a>
+      <a href="#features">Features</a>
+      <a href="#signin">Driver Portal</a>
+      <a href="{{ url_for('about') }}">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#signin" class="header-link">Sign In</a>
+      <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="pill-badge">
+          <i class='bx bxs-zap' style="color:#6366f1;"></i> NEXT-GENERATION AI VISION
+        </div>
+
+        <h1>Imagine AI-Powered <br><span class="gradient-text">Driver Safety</span> on Every Road</h1>
+
+        <p class="subtitle">
+          Cost-effective edge computer vision solution detecting drowsiness in milliseconds, monitoring phone
+          distractions, and triggering instant rescue alerts. What will your fleet achieve?
+        </p>
+
+        <!-- Quick Action Bar (Search & Launch) -->
+        <div class="hero-action-bar">
+          <i class='bx bx-search' style="color:#94a3b8; font-size:18px;"></i>
+          <input type="text" id="quickDriverSearch" placeholder="Search vehicle or driver status..." />
+          <div class="divider"></div>
+          <select id="moduleSelect">
+            <option value="face_mesh">Face Mesh</option>
+            <option value="phone">Distraction</option>
+            <option value="rescue">Rescue Siren</option>
+          </select>
+          <a href="#signin" class="btn-pill primary" style="padding: 10px 22px; font-size: 13.5px;">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Popular Tags / Chips -->
+        <div class="popular-tags">
+          <span style="font-weight: 700; color: #475569;">Active Modules:</span>
+          <a href="#showcase" class="tag-chip">Drowsiness Mesh</a>
+          <a href="#showcase" class="tag-chip">Phone Radar</a>
+          <a href="#showcase" class="tag-chip">Car Horn Siren</a>
+          <a href="#showcase" class="tag-chip">Fleet Telemetry</a>
+        </div>
+      </div>
+
+      <!-- Hero 3D Mascot / Visual -->
+      <div class="hero-visual">
+        <div class="mascot-container">
+          <!-- Floating Glass Badges -->
+          <div class="floating-chip top-left">
+            <div class="chip-icon purple"><i class='bx bx-scan'></i></div>
+            <div>
+              <div style="font-size:11px; color:#64748b;">FACIAL SCAN</div>
+              <div>468 Landmarks Active</div>
+            </div>
+          </div>
+
+          <img src="{{ url_for('static', filename='images/hero_robot.jpg') }}" alt="Safe Steer AI Robot Mascot"
+            class="mascot-img" />
+
+          <div class="floating-chip bottom-right">
+            <div class="chip-icon teal"><i class='bx bx-shield-quarter'></i></div>
+            <div>
+              <div style="font-size:11px; color:#64748b;">SAFETY SHIELD</div>
+              <div>99.4% EAR Precision</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Cards Strip (Curved horizontal gallery matching user image) -->
+  <section class="showcase-strip-section" id="showcase">
+    <div class="showcase-cards-grid">
+      <div class="showcase-card">
+        <div class="showcase-img-wrap">
+          <span class="showcase-badge">BIOMETRIC EAR</span>
+          <img src="{{ url_for('static', filename='images/card_facemesh.jpg') }}" alt="Face Mesh Analysis" />
+        </div>
+        <div class="showcase-info">
+          <h4>3D Eye Tracking</h4>
+          <p>Micro-blink and EAR ratio analysis calculating driver fatigue sub-second.</p>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-img-wrap">
+          <span class="showcase-badge">RESCUE SIREN</span>
+          <img src="{{ url_for('static', filename='images/card_emergency.jpg') }}" alt="Autonomous Rescue Alert" />
+        </div>
+        <div class="showcase-info">
+          <h4>Emergency Dispatch</h4>
+          <p>Multi-stage car horn alerts and automated rescue team telemetry triggers.</p>
+        </div>
+      </div>
+
+      <div class="showcase-card">
+        <div class="showcase-img-wrap">
+          <span class="showcase-badge">ANALYTICS</span>
+          <img src="{{ url_for('static', filename='images/card_analytics.jpg') }}" alt="Fleet Analytics Telemetry" />
+        </div>
+        <div class="showcase-info">
+          <h4>Fleet Intelligence</h4>
+          <p>Timestamped incident logging and forensic driver safety reports.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section ("WHAT WE DO") -->
+  <section class="features-section" id="features">
+    <div class="section-header">
+      <span class="section-tag">WHAT SAFE STEER DOES</span>
+      <h2>Bring your safety to the road with <span class="gradient-text">AI Driver Guardian</span></h2>
+      <p>Protecting commercial fleets, transport networks, and everyday drivers with real-time cabin vision and forensic
+        incident logging.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class='bx bx-face'></i>
+        </div>
+        <h3>Drowsiness Guard</h3>
+        <p>Calculates eye aspect ratios (EAR) at 30 FPS to identify microsleep episodes before accidents happen.</p>
+        <a href="#signin" class="feature-arrow-btn"><i class='bx bx-right-arrow-alt'></i></a>
+      </div>
+
+      <!-- <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class='bx bx-mobile-vibration'></i>
+        </div>
+        <h3>Phone  Detection</h3>
+        <p>Tracks hand-to-face spatial vectors to alert drivers immediately when handling their smartphone.</p>
+        <a href="#signin" class="feature-arrow-btn"><i class='bx bx-right-arrow-alt'></i></a>
+      </div> -->
+
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class='bx bx-alarm-exclamation'></i>
+        </div>
+        <h3>Multi-Stage Siren</h3>
+        <p>Escalates from gentle speech guidance to loud car horn honks if a driver remains unresponsive.</p>
+        <a href="#signin" class="feature-arrow-btn"><i class='bx bx-right-arrow-alt'></i></a>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-circle">
+          <i class='bx bx-line-chart'></i>
+        </div>
+        <h3>Forensic Logs</h3>
+        <p>Every incident is recorded with vehicle number and precise timestamps for supervisor inspection.</p>
+        <a href="#signin" class="feature-arrow-btn"><i class='bx bx-right-arrow-alt'></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign In Section -->
+  <section class="auth-section" id="signin">
+    <div class="auth-card">
+      <!-- Left Hero Panel -->
+      <div class="auth-sidebar">
+        <div>
+          <div class="pill-badge"
+            style="background: rgba(255,255,255,0.15); color:#fff; border-color:rgba(255,255,255,0.2);">
+            <i class='bx bxs-shield'></i> SECURE PORTAL
+          </div>
+          <h3>Welcome Back to Safe Steer</h3>
+          <p>Sign in to launch your real-time computer vision camera monitor or inspect your trip incidents.</p>
+
+          <div class="auth-sidebar-features">
+            <div class="auth-feature-item">
+              <i class='bx bx-check-shield'></i> Sub-second neural eye tracking
+            </div>
+            <div class="auth-feature-item">
+              <i class='bx bx-bell'></i> Instant voice & siren safety alerts
+            </div>
+            <div class="auth-feature-item">
+              <i class='bx bx-car'></i> Automatic vehicle incident logging
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 13px; color: #a5b4fc;">
+          &copy; 2026 Safe Steer Autonomous Systems.
+        </div>
+      </div>
+
+      <!-- Right Form Panel -->
+      <div class="auth-form-wrap">
+        <h2>Sign In</h2>
+        <p class="auth-sub">Enter your credentials to access your driver console.</p>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label" for="email">Account Email</label>
+            <div class="input-with-icon">
+              <input type="email" id="email" placeholder="driver@safesteer.com" required />
+              <i class='bx bx-envelope'></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="input-with-icon">
+              <input type="password" id="password" placeholder="••••••••" required />
+              <i class='bx bx-lock-alt'></i>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label><input type="checkbox" id="rememberMe" /> Remember credentials</label>
+            <a href="{{ url_for('signup') }}">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-submit">
+            Sign In to Dashboard &nbsp;<i class='bx bx-right-arrow-alt'></i>
+          </button>
+
+          <p class="auth-swap">
+            Don’t have an account?
+            <a href="{{ url_for('signup') }}">Create Driver Account</a>
+          </p>
+
+          <p class="auth-swap" style="margin-top: 10px;">
+            Fleet Administrator?
+            <a href="{{ url_for('admin_login') }}">Sign In with Admin Account</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="brand-logo" style="font-size: 19px;">
+        <div class="logo-icon" style="width:30px; height:30px; font-size:16px;"><i class='bx bx-radar'></i></div>
+        <span>Safe<span>Steer</span> AI</span>
+      </div>
+
+      <div class="footer-links">
+        <a href="#hero">Home</a>
+        <a href="#showcase">AI Vision</a>
+        <a href="#features">Features</a>
+        <a href="{{ url_for('about') }}">About Platform</a>
+        <a href="{{ url_for('signup') }}">Register Driver</a>
+      </div>
+
+      <div class="footer-copy">
+        &copy; 2026 Safe Steer AI. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
