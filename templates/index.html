@@ -28,12 +28,20 @@
           style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="#hero" class="active">Home</a>
-      <a href="#showcase">Technology</a>
-      <a href="#features">Features</a>
-      <a href="#signin">Driver Portal</a>
-      <a href="{{ url_for('about') }}">About</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#hero" class="active"><i class='bx bx-home-alt'></i> Home</a>
+      <a href="#showcase"><i class='bx bx-chip'></i> Technology</a>
+      <a href="#features"><i class='bx bx-shield-quarter'></i> Features</a>
+      <a href="#signin"><i class='bx bx-user'></i> Driver Portal</a>
+      <a href="{{ url_for('about') }}"><i class='bx bx-info-circle'></i> About</a>
+      <div class="mobile-nav-actions">
+        <a href="#signin" class="btn-pill secondary">Sign In</a>
+        <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -59,8 +67,10 @@
 
         <!-- Quick Action Bar (Search & Launch) -->
         <div class="hero-action-bar">
-          <i class='bx bx-search' style="color:#94a3b8; font-size:18px;"></i>
-          <input type="text" id="quickDriverSearch" placeholder="Search vehicle or driver status..." />
+          <div class="search-input-wrap">
+            <i class='bx bx-search' style="color:#94a3b8; font-size:18px;"></i>
+            <input type="text" id="quickDriverSearch" placeholder="Search vehicle or driver status..." />
+          </div>
           <div class="divider"></div>
           <select id="moduleSelect">
             <option value="face_mesh">Face Mesh</option>

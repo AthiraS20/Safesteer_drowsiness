@@ -30,11 +30,19 @@
       </span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('index') }}#showcase">Technology</a>
-      <a href="{{ url_for('index') }}#features">Features</a>
-      <a href="{{ url_for('about') }}">About</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('index') }}"><i class='bx bx-home-alt'></i> Home</a>
+      <a href="{{ url_for('index') }}#showcase"><i class='bx bx-chip'></i> Technology</a>
+      <a href="{{ url_for('index') }}#features"><i class='bx bx-shield-quarter'></i> Features</a>
+      <a href="{{ url_for('about') }}"><i class='bx bx-info-circle'></i> About</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('index') }}#signin" class="btn-pill secondary">Driver Login</a>
+        <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -43,8 +51,8 @@
     </div>
   </header>
 
-  <!-- Admin Login Section (identical layout to driver sign-in) -->
-  <section class="auth-section" id="admin-signin" style="padding-top: 120px;">
+  <!-- Admin Login Section -->
+  <section class="auth-section" id="admin-signin">
     <div class="auth-card">
 
       <!-- Left Sidebar Panel -->
@@ -157,6 +165,7 @@
     </div>
   </footer>
 
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>

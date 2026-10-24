@@ -21,9 +21,18 @@
       <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">ADMIN</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('admin_dashboard') }}" class="active">Fleet Drivers</a>
-      <a href="{{ url_for('admin_incidents') }}">All Incidents</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('admin_dashboard') }}" class="active"><i class='bx bx-group'></i> Fleet Drivers</a>
+      <a href="{{ url_for('admin_incidents') }}"><i class='bx bx-list-ul'></i> All Incidents</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('logout') }}" class="btn-pill secondary">
+          <i class='bx bx-log-out'></i> Logout
+        </a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -56,41 +65,45 @@
         <span style="font-size:13px; color:var(--text-muted); font-weight:600;">Total: {{ users|length }} Drivers</span>
       </div>
 
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Driver ID</th>
-            <th>Full Name</th>
-            <th>Vehicle No</th>
-            <th>Access Role</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for u in users %}
-          <tr>
-            <td style="font-weight: 700;">#{{ u['id'] }}</td>
-            <td style="font-weight: 600; color:var(--text-main);">
-              <i class='bx bx-user' style="color:#6366f1; margin-right:4px;"></i> {{ u['username'] }}
-            </td>
-            <td>
-              <span class="tag-chip" style="background:#eef2ff; color:#4f46e5; border-color:#c7d2fe;">
-                <i class='bx bx-car'></i> {{ u['vehicle_no'] }}
-              </span>
-            </td>
-            <td>
-              <span class="status-badge success">{{ u['role'] if 'role' in u else 'Driver' }}</span>
-            </td>
-            <td>
-              <a href="{{ url_for('admin_user_details', user_id=u['id']) }}" class="btn-pill secondary" style="padding: 6px 14px; font-size: 13px;">
-                Inspect Telemetry &nbsp;<i class='bx bx-right-arrow-alt'></i>
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Driver ID</th>
+              <th>Full Name</th>
+              <th>Vehicle No</th>
+              <th>Access Role</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td style="font-weight: 700;">#{{ u['id'] }}</td>
+              <td style="font-weight: 600; color:var(--text-main);">
+                <i class='bx bx-user' style="color:#6366f1; margin-right:4px;"></i> {{ u['username'] }}
+              </td>
+              <td>
+                <span class="tag-chip" style="background:#eef2ff; color:#4f46e5; border-color:#c7d2fe;">
+                  <i class='bx bx-car'></i> {{ u['vehicle_no'] }}
+                </span>
+              </td>
+              <td>
+                <span class="status-badge success">{{ u['role'] if 'role' in u else 'Driver' }}</span>
+              </td>
+              <td>
+                <a href="{{ url_for('admin_user_details', user_id=u['id']) }}" class="btn-pill secondary" style="padding: 6px 14px; font-size: 13px; white-space: nowrap;">
+                  Inspect Telemetry &nbsp;<i class='bx bx-right-arrow-alt'></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body style="background-color: #f8faff;">
-  <div class="ambient-bg"></div>Phone Detection
+  <div class="ambient-bg"></div>
 
   <header class="site-header">
     <a href="{{ url_for('admin_dashboard') }}" class="brand-logo">
@@ -21,9 +21,21 @@
       <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">ADMIN</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('admin_dashboard') }}">Fleet Drivers</a>
-      <a href="{{ url_for('admin_incidents') }}">All Incidents</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('admin_dashboard') }}"><i class='bx bx-group'></i> Fleet Drivers</a>
+      <a href="{{ url_for('admin_incidents') }}"><i class='bx bx-list-ul'></i> All Incidents</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn-pill secondary">
+          <i class='bx bx-arrow-back'></i> Back to Drivers
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn-pill secondary">
+          <i class='bx bx-log-out'></i> Logout
+        </a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -99,42 +111,44 @@
       </div>
 
       {% if incidents %}
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Event ID</th>
-            <th>Safety Violation Type</th>
-            <th>Exact Timestamp</th>
-            <th>Alert Mechanism</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for incident in incidents %}
-          <tr>
-            <td style="font-weight: 700;">#{{ incident['id'] }}</td>
-            <td>
-              {% if 'Drowsiness' in incident['type'] %}
-                <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ incident['type'] }}</span>
-              {% elif 'Phone' in incident['type'] %}
-                <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ incident['type'] }}</span>
-              {% elif 'Unresponsive' in incident['type'] %}
-                <span class="status-badge danger" style="background:#fee2e2; color:#b91c1c;"><i class='bx bx-alarm-exclamation'></i> {{ incident['type'] }}</span>
-              {% else %}
-                <span class="status-badge warning">{{ incident['type'] }}</span>
-              {% endif %}
-            </td>
-            <td style="color:var(--text-muted);">{{ incident['timestamp'] }}</td>
-            <td>
-              {% if 'Unresponsive' in incident['type'] %}
-                <span style="color:#b91c1c; font-weight:700;">Horn + Simulated Rescue Call</span>
-              {% else %}
-                <span style="color:#4f46e5; font-weight:600;">Acoustic Beep + Speech Warning</span>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Event ID</th>
+              <th>Safety Violation Type</th>
+              <th>Exact Timestamp</th>
+              <th>Alert Mechanism</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for incident in incidents %}
+            <tr>
+              <td style="font-weight: 700;">#{{ incident['id'] }}</td>
+              <td>
+                {% if 'Drowsiness' in incident['type'] %}
+                  <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ incident['type'] }}</span>
+                {% elif 'Phone' in incident['type'] %}
+                  <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ incident['type'] }}</span>
+                {% elif 'Unresponsive' in incident['type'] %}
+                  <span class="status-badge danger" style="background:#fee2e2; color:#b91c1c;"><i class='bx bx-alarm-exclamation'></i> {{ incident['type'] }}</span>
+                {% else %}
+                  <span class="status-badge warning">{{ incident['type'] }}</span>
+                {% endif %}
+              </td>
+              <td style="color:var(--text-muted); white-space: nowrap;">{{ incident['timestamp'] }}</td>
+              <td>
+                {% if 'Unresponsive' in incident['type'] %}
+                  <span style="color:#b91c1c; font-weight:700;">Horn + Simulated Rescue Call</span>
+                {% else %}
+                  <span style="color:#4f46e5; font-weight:600;">Acoustic Beep + Speech Warning</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
       {% else %}
       <div style="text-align:center; padding: 40px; color:var(--text-muted);">
         <i class='bx bx-check-shield' style="font-size: 48px; color: #10b981; margin-bottom: 12px; display:block;"></i>
@@ -144,5 +158,8 @@
       {% endif %}
     </div>
   </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+

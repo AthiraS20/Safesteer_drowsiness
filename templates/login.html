@@ -2,21 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login - Safe Steer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Safe Steer AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="container">
-    <div class="card small-card">
-      <h2>Login</h2>
-      <form action="{{ url_for('login') }}" method="POST">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-      <p><a href="{{ url_for('forgot') }}">Forgot password?</a></p>
-      <p>Don’t have an account? <a href="{{ url_for('signup') }}">Signup</a></p>
+  <div class="ambient-bg"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('index') }}" class="brand-logo">
+      <div class="logo-icon"><i class='bx bx-radar'></i></div>
+      <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
+    </a>
+
+    <div class="header-actions">
+      <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
     </div>
-  </div>
+  </header>
+
+  <main class="auth-section">
+    <div class="auth-card" style="max-width: 480px; margin: 0 auto; grid-template-columns: 1fr;">
+      <div class="auth-form-wrap">
+        <h2>Driver Login</h2>
+        <p class="auth-sub">Enter your credentials to access your driver console.</p>
+
+        <form action="{{ url_for('login') }}" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email</label>
+            <div class="input-with-icon">
+              <input type="email" id="loginEmail" name="email" placeholder="driver@safesteer.com" required>
+              <i class='bx bx-envelope'></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <div class="input-with-icon">
+              <input type="password" id="loginPassword" name="password" placeholder="••••••••" required>
+              <i class='bx bx-lock-alt'></i>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <a href="{{ url_for('forgot') }}">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-submit">Login &nbsp;<i class='bx bx-right-arrow-alt'></i></button>
+
+          <p class="auth-swap">
+            Don’t have an account? <a href="{{ url_for('signup') }}">Signup</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </main>
 </body>
 </html>

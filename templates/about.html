@@ -21,11 +21,19 @@
       <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('index') }}#showcase">Vision Tech</a>
-      <a href="{{ url_for('index') }}#features">Features</a>
-      <a href="{{ url_for('about') }}" class="active">About</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('index') }}"><i class='bx bx-home-alt'></i> Home</a>
+      <a href="{{ url_for('index') }}#showcase"><i class='bx bx-chip'></i> Vision Tech</a>
+      <a href="{{ url_for('index') }}#features"><i class='bx bx-shield-quarter'></i> Features</a>
+      <a href="{{ url_for('about') }}" class="active"><i class='bx bx-info-circle'></i> About</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('index') }}#signin" class="btn-pill secondary">Sign In</a>
+        <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -34,17 +42,17 @@
     </div>
   </header>
 
-  <main class="dashboard-container" style="max-width: 1040px; margin-top: 130px;">
+  <main class="dashboard-container" style="max-width: 1040px;">
     <div class="section-header" style="text-align: left; margin-bottom: 36px;">
       <span class="section-tag">MISSION & INTELLIGENCE</span>
       <h2>About <span class="gradient-text">Safe Steer AI</span></h2>
-      <p style="font-size: 18px; line-height: 1.7;">
+      <p style="font-size: 16px; line-height: 1.7;">
         Safe Steer is an autonomous, on-device edge AI driver safety system engineered to eliminate fatigue-induced collisions, distracted driving, and unresponsive vehicular emergencies in real time.
       </p>
     </div>
 
     <!-- Tech Architecture Grid -->
-    <div class="features-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 40px; text-align: left;">
+    <div class="features-grid" style="margin-bottom: 40px; text-align: left;">
       <div class="feature-box" style="align-items: flex-start; text-align: left;">
         <div class="feature-icon-circle"><i class='bx bx-scan'></i></div>
         <h3>High-Precision Eye & Face Mesh</h3>
@@ -70,14 +78,14 @@
       </div>
     </div>
 
-    <div class="table-card" style="text-align: center; padding: 48px 32px;">
-      <h3 style="justify-content: center; font-size: 26px;">Ready to Safeguard Your Fleet?</h3>
+    <div class="table-card" style="text-align: center; padding: 40px 24px;">
+      <h3 style="justify-content: center; font-size: 24px;">Ready to Safeguard Your Fleet?</h3>
       <p style="color: var(--text-muted); max-width: 540px; margin: 10px auto 24px;">
         Connect your cabin camera and test the neural detection engine directly on your vehicle.
       </p>
-      <div style="display: flex; justify-content: center; gap: 16px;">
-        <a href="{{ url_for('signup') }}" class="btn-pill primary" style="padding: 14px 32px;">Register Vehicle</a>
-        <a href="{{ url_for('index') }}#signin" class="btn-pill secondary" style="padding: 14px 28px;">Driver Sign In</a>
+      <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+        <a href="{{ url_for('signup') }}" class="btn-pill primary" style="padding: 12px 28px;">Register Vehicle</a>
+        <a href="{{ url_for('index') }}#signin" class="btn-pill secondary" style="padding: 12px 24px;">Driver Sign In</a>
       </div>
     </div>
   </main>
@@ -93,5 +101,7 @@
       </div>
     </div>
   </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

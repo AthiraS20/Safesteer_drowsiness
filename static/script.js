@@ -89,4 +89,47 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/";
     });
   }
+
+  // MOBILE NAVIGATION TOGGLE
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen);
+      const icon = navToggle.querySelector("i");
+      if (icon) {
+        if (isOpen) {
+          icon.className = "bx bx-x";
+        } else {
+          icon.className = "bx bx-menu";
+        }
+      }
+    });
+
+    // Close when clicking nav links
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (navLinks.classList.contains("open")) {
+          navLinks.classList.remove("open");
+          const icon = navToggle.querySelector("i");
+          if (icon) icon.className = "bx bx-menu";
+        }
+      });
+    });
+
+    // Close when tapping outside
+    document.addEventListener("click", (e) => {
+      if (
+        navLinks.classList.contains("open") &&
+        !navLinks.contains(e.target) &&
+        !navToggle.contains(e.target)
+      ) {
+        navLinks.classList.remove("open");
+        const icon = navToggle.querySelector("i");
+        if (icon) icon.className = "bx bx-menu";
+      }
+    });
+  }
 });

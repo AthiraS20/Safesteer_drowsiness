@@ -21,9 +21,17 @@
       <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">AI</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('index') }}">Home</a>
-      <a href="{{ url_for('about') }}">About</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('index') }}"><i class='bx bx-home-alt'></i> Home</a>
+      <a href="{{ url_for('about') }}"><i class='bx bx-info-circle'></i> About</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('index') }}" class="btn-pill secondary">Sign In</a>
+        <a href="{{ url_for('signup') }}" class="btn-pill primary">Join Platform</a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -32,8 +40,8 @@
     </div>
   </header>
 
-  <main class="auth-section" style="padding-top: 130px;">
-    <div class="auth-card" style="max-width: 960px; margin: 0 auto; grid-template-columns: 0.9fr 1.1fr;">
+  <main class="auth-section">
+    <div class="auth-card" style="max-width: 960px; margin: 0 auto;">
       <!-- Left Info Panel -->
       <div class="auth-sidebar">
         <div>

@@ -21,9 +21,21 @@
       <span>Safe<span>Steer</span> <span style="font-size:12px; font-weight:800; padding:2px 7px; background:#e0e7ff; color:#6366f1; border-radius:999px; margin-left:4px;">ADMIN</span></span>
     </a>
 
-    <nav class="nav-links">
-      <a href="{{ url_for('admin_dashboard') }}">Fleet Drivers</a>
-      <a href="{{ url_for('admin_incidents') }}" class="active">All Incidents</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class='bx bx-menu'></i>
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('admin_dashboard') }}"><i class='bx bx-group'></i> Fleet Drivers</a>
+      <a href="{{ url_for('admin_incidents') }}" class="active"><i class='bx bx-list-ul'></i> All Incidents</a>
+      <div class="mobile-nav-actions">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn-pill secondary">
+          <i class='bx bx-arrow-back'></i> Drivers List
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn-pill secondary">
+          <i class='bx bx-log-out'></i> Logout
+        </a>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -59,54 +71,56 @@
       </div>
 
       {% if incidents %}
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Event ID</th>
-            <th>Driver / Vehicle</th>
-            <th>Incident Type</th>
-            <th>Timestamp</th>
-            <th>Action Taken</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for inc in incidents %}
-          <tr>
-            <td style="font-weight: 700;">#{{ inc['id'] }}</td>
-            <td>
-              <div style="font-weight:700; color:var(--text-main);">
-                {{ inc['username'] if 'username' in inc else ('User #' ~ inc['user_id']) }}
-              </div>
-              <div style="font-size:12px; color:var(--text-muted);">
-                <i class='bx bx-car'></i> {{ inc['vehicle_no'] if 'vehicle_no' in inc else 'N/A' }}
-              </div>
-            </td>
-            <td>
-              {% set itype = inc['type'] if 'type' in inc else (inc['incident_type'] if 'incident_type' in inc else 'Alert') %}
-              {% if 'Drowsiness' in itype %}
-                <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ itype }}</span>
-              {% elif 'Phone' in itype %}
-                <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ itype }}</span>
-              {% elif 'Unresponsive' in itype %}
-                <span class="status-badge danger" style="background:#fee2e2; color:#b91c1c;"><i class='bx bx-alarm-exclamation'></i> {{ itype }}</span>
-              {% else %}
-                <span class="status-badge warning">{{ itype }}</span>
-              {% endif %}
-            </td>
-            <td style="color:var(--text-muted);">
-              {{ inc['timestamp'] if 'timestamp' in inc else inc['created_at'] }}
-            </td>
-            <td>
-              {% if 'Unresponsive' in itype %}
-                <span style="color:#b91c1c; font-weight:700;">Siren & Rescue Team Triggered</span>
-              {% else %}
-                <span style="color:#4f46e5; font-weight:600;">Voice Warning Logged</span>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Event ID</th>
+              <th>Driver / Vehicle</th>
+              <th>Incident Type</th>
+              <th>Timestamp</th>
+              <th>Action Taken</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inc in incidents %}
+            <tr>
+              <td style="font-weight: 700;">#{{ inc['id'] }}</td>
+              <td>
+                <div style="font-weight:700; color:var(--text-main);">
+                  {{ inc['username'] if 'username' in inc else ('User #' ~ inc['user_id']) }}
+                </div>
+                <div style="font-size:12px; color:var(--text-muted);">
+                  <i class='bx bx-car'></i> {{ inc['vehicle_no'] if 'vehicle_no' in inc else 'N/A' }}
+                </div>
+              </td>
+              <td>
+                {% set itype = inc['type'] if 'type' in inc else (inc['incident_type'] if 'incident_type' in inc else 'Alert') %}
+                {% if 'Drowsiness' in itype %}
+                  <span class="status-badge warning"><i class='bx bx-error-circle'></i> {{ itype }}</span>
+                {% elif 'Phone' in itype %}
+                  <span class="status-badge danger"><i class='bx bx-mobile-vibration'></i> {{ itype }}</span>
+                {% elif 'Unresponsive' in itype %}
+                  <span class="status-badge danger" style="background:#fee2e2; color:#b91c1c;"><i class='bx bx-alarm-exclamation'></i> {{ itype }}</span>
+                {% else %}
+                  <span class="status-badge warning">{{ itype }}</span>
+                {% endif %}
+              </td>
+              <td style="color:var(--text-muted); white-space: nowrap;">
+                {{ inc['timestamp'] if 'timestamp' in inc else inc['created_at'] }}
+              </td>
+              <td>
+                {% if 'Unresponsive' in itype %}
+                  <span style="color:#b91c1c; font-weight:700;">Siren & Rescue Team Triggered</span>
+                {% else %}
+                  <span style="color:#4f46e5; font-weight:600;">Voice Warning Logged</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
       {% else %}
       <div style="text-align:center; padding: 40px; color:var(--text-muted);">
         <i class='bx bx-check-double' style="font-size: 48px; color: #10b981; margin-bottom: 12px; display:block;"></i>
@@ -116,5 +130,7 @@
       {% endif %}
     </div>
   </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
