@@ -66,13 +66,21 @@
         </div>
       </div>
 
-      <!-- Start Monitoring Button -->
-      <div>
-        <form action="{{ url_for('start_monitoring') }}" method="post">
-          <button type="submit" class="btn-pill primary" style="padding: 16px 32px; font-size: 16px; border-radius: 999px;">
-            <i class='bx bx-video-recording' style="font-size: 22px;"></i> Launch AI Camera Monitor
-          </button>
-        </form>
+      <!-- Monitoring Controls -->
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        {% if is_monitoring %}
+          <form action="{{ url_for('stop_monitoring_route') }}" method="post" style="margin:0;">
+            <button type="submit" class="btn-pill" style="padding: 15px 30px; font-size: 15px; border-radius: 999px; background: #ef4444; color: #ffffff; border: none; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700;">
+              <i class='bx bx-stop-circle' style="font-size: 22px;"></i> Stop AI Camera Monitor
+            </button>
+          </form>
+        {% else %}
+          <form action="{{ url_for('start_monitoring') }}" method="post" style="margin:0;">
+            <button type="submit" class="btn-pill primary" style="padding: 15px 30px; font-size: 15px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700;">
+              <i class='bx bx-video-recording' style="font-size: 22px;"></i> Launch AI Camera Monitor
+            </button>
+          </form>
+        {% endif %}
       </div>
     </div>
 
@@ -103,12 +111,20 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon"><i class='bx bx-radar'></i></div>
+        <div class="stat-icon" style="color: {% if is_monitoring %}#10b981{% else %}#64748b{% endif %};">
+          <i class='bx bx-radar'></i>
+        </div>
         <div class="stat-content">
           <h5>AI Guard Status</h5>
-          <p style="color:#10b981; display:flex; align-items:center; gap:6px;">
-            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981;"></span> Ready
-          </p>
+          {% if is_monitoring %}
+            <p style="color:#10b981; display:flex; align-items:center; gap:6px; font-weight:700;">
+              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span> Monitoring Active
+            </p>
+          {% else %}
+            <p style="color:#64748b; display:flex; align-items:center; gap:6px;">
+              <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8;"></span> Standby / Ready
+            </p>
+          {% endif %}
         </div>
       </div>
     </div>

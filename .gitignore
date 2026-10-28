@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.active_monitors.json
+.monitor_stop_*
+*.log

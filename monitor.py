@@ -157,6 +157,17 @@ parser.add_argument("--user_id", required=True, help="User ID from Flask session
 args = parser.parse_args()
 USER_ID = args.user_id
 
+# === Stop Flag Signal Setup ===
+STOP_FLAG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), f".monitor_stop_{USER_ID}")
+ALL_STOP_FLAG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".monitor_stop_all")
+
+for _flag in (STOP_FLAG_FILE, ALL_STOP_FLAG_FILE):
+    if os.path.exists(_flag):
+        try:
+            os.remove(_flag)
+        except Exception:
+            pass
+
 # === Camera ===
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
@@ -166,6 +177,16 @@ if not cap.isOpened():
 threading.Thread(target=trigger_system_boot, daemon=True).start()
 
 while True:
+    # Check for logout / stop signal from app
+    if os.path.exists(STOP_FLAG_FILE) or os.path.exists(ALL_STOP_FLAG_FILE):
+        print(f"[SafeSteer Monitor] Stop signal received for user {USER_ID}. Stopping monitor...")
+        try:
+            if os.path.exists(STOP_FLAG_FILE):
+                os.remove(STOP_FLAG_FILE)
+        except Exception:
+            pass
+        break
+
     ret, frame = cap.read()
     if not ret:
         print("Camera feed ended or unavailable.")
@@ -266,3 +287,10 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+try:
+    pygame.mixer.stop()
+    pygame.mixer.music.stop()
+    pygame.quit()
+except Exception:
+    pass
+print(f"[SafeSteer Monitor] Monitoring stopped cleanly for user {USER_ID}.")
